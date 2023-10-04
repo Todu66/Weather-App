@@ -1,4 +1,4 @@
-import React, { useEffect, useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, useEffect } from 'react';
 import ApiRequest, { WeatherData } from './ApiRequest';
 
 interface HeroProps {
@@ -19,9 +19,18 @@ const Hero: React.FC<HeroProps> = ({ onCitySubmit }) => {
         const response = await fetch(
           `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=Metric&appid=93ca0a52321cfb1ac68e467e9b2e53dc`
         );
-        const data: WeatherData = await response.json();
-        setWeatherData(data);
+        if (response.ok) {
+          const data: WeatherData = await response.json();
+          setWeatherData(data);
+
+          // Call onCitySubmit with the city when data is fetched successfully
+          onCitySubmit(city);
+        } else {
+          // Handle non-successful response, e.g., show an error message to the user
+          console.error('Error fetching weather data:', response.statusText);
+        }
       } catch (error) {
+        // Handle network errors or other exceptions
         console.error('Error fetching weather data:', error);
       }
     };
@@ -30,7 +39,7 @@ const Hero: React.FC<HeroProps> = ({ onCitySubmit }) => {
     if (city) {
       fetchData();
     }
-  }, [city]);
+  }, [city, onCitySubmit]); // Include onCitySubmit in the dependency array
 
   return (
     <div className="flex flex-col max-w-[1640px] h-[100vh] bg-[#1C1C1C] p-2 text-center items-center justify-center">
