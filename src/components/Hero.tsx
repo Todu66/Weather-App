@@ -1,7 +1,11 @@
 import React, { useEffect, useState, ChangeEvent } from 'react';
 import ApiRequest, { WeatherData } from './ApiRequest';
 
-const Hero: React.FC<{ onCitySubmit: (city: string) => void }> = ({}) => {
+interface HeroProps {
+  onCitySubmit: (city: string) => void;
+}
+
+const Hero: React.FC<HeroProps> = ({ onCitySubmit }) => {
   const [city, setCity] = useState<string>('');
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
 
