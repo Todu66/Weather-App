@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
-import ApiRequest from "./ApiRequest";
-//93ca0a52321cfb1ac68e467e9b2e53dc
-const Hero = ({ onCitySubmit }) => {
-  const [city, setCity] = useState('');
-  const [weatherData, setWeatherData] = useState(null);
+import React, { useEffect, useState, ChangeEvent } from 'react';
+import ApiRequest, { WeatherData } from './ApiRequest';
 
-  const handleInputChange = (e) => {
+const Hero: React.FC<{ onCitySubmit: (city: string) => void }> = ({ onCitySubmit }) => {
+  const [city, setCity] = useState<string>('');
+  const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setCity(e.target.value);
   };
 
@@ -15,7 +15,7 @@ const Hero = ({ onCitySubmit }) => {
         const response = await fetch(
           `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=Metric&appid=93ca0a52321cfb1ac68e467e9b2e53dc`
         );
-        const data = await response.json();
+        const data: WeatherData = await response.json();
         setWeatherData(data);
       } catch (error) {
         console.error('Error fetching weather data:', error);
@@ -28,11 +28,8 @@ const Hero = ({ onCitySubmit }) => {
     }
   }, [city]);
 
-
   return (
-    // main div
     <div className="flex flex-col max-w-[1640px] h-[100vh] bg-[#1C1C1C] p-2 text-center items-center justify-center">
-      {/* for top location and input */}
       <div className="flex justify-center flex-col items-center">
         <h2 className="text-[#fff]">Choose Location</h2>
         <input
@@ -41,13 +38,11 @@ const Hero = ({ onCitySubmit }) => {
           placeholder="enter city..."
           value={city}
           onChange={handleInputChange}
-          
         />
       </div>
-
-      {/* Returned data from api + default component ApiResult*/}
       {weatherData && <ApiRequest weatherData={weatherData} />}
     </div>
   );
 };
+
 export default Hero;
