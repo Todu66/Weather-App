@@ -31,12 +31,12 @@ const Hero = ({ onCitySubmit }) => {
 
   return (
     // main div
-    <div className="max-w-[1640px] h-[100vh] bg-[#1C1C1C] p-2 text-center">
+    <div className="flex flex-col max-w-[1640px] h-[100vh] bg-[#1C1C1C] p-2 text-center items-center justify-center">
       {/* for top location and input */}
-      <div className="flex justify-center flex-col">
+      <div className="flex justify-center flex-col items-center">
         <h2 className="text-[#fff]">Choose Location</h2>
         <input
-          className="max-w-[400px] bg-[#393939] p-2 focus:outline-none rounded-full text-[#D4D4D4]"
+          className="w-[260px] bg-[#393939] p-2 focus:outline-none rounded-full text-[#D4D4D4] sm:w-[]"
           type="text"
           placeholder="enter city..."
           value={city}
